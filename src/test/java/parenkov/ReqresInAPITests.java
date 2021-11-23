@@ -3,13 +3,13 @@ package parenkov;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class ReqresInAPITests {
 
-    // внесение данных пользователя
     @Test
     void createUser() {
         given()
@@ -24,7 +24,6 @@ public class ReqresInAPITests {
                 );
     }
 
-    // изменение данных пользователя
     @Test
     void updateUser() {
         given()
@@ -39,12 +38,9 @@ public class ReqresInAPITests {
                 );
     }
 
-    // запрос информации о пользователе
     @Test
     void getUserInfo() {
-        given()
-                .when()
-                .get("https://reqres.in/api/users/{id}", 10)
+        get("https://reqres.in/api/users/{id}", 10)
                 .then()
                 .statusCode(200)
                 .body("data.email", equalTo("byron.fields@reqres.in"),
@@ -53,17 +49,13 @@ public class ReqresInAPITests {
                 );
     }
 
-    // запрос информации о несуществующем пользователе [negative]
     @Test
     void notFoundUser() {
-        given()
-                .when()
-                .get("https://reqres.in/api/users/{id}", 33)
+        get("https://reqres.in/api/users/{id}", 33)
                 .then()
                 .statusCode(404);
     }
 
-    // успешная регистрация
     @Test
     void successfulRegistration() {
         given()
@@ -73,11 +65,11 @@ public class ReqresInAPITests {
                 .post("https://reqres.in/api/register")
                 .then()
                 .statusCode(200)
-                .body("id", is(4)
+                .body("id", is(4),
+                        "token", is("QpwL5tke4Pnpja7X4")
                 );
     }
 
-    // регистрация с незаполненным email [negative]
     @Test
     void unsuccessfulRegistration() {
         given()
