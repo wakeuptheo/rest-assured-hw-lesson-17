@@ -1,1 +1,1 @@
-# Rest-assured. Homework - Lesson #17
+# REST Assured. Homework Lesson #17
